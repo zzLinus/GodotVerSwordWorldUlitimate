@@ -1,0 +1,16 @@
+Godot Engine v3.4.2.stable.official.45eaa2daf - https://godotengine.org
+WARNING: XOpenIM failed
+   at: initialize (platform/x11/os_x11.cpp:197) - XOpenIM failed
+WARNING: XCreateIC couldn't create xic
+   at: initialize (platform/x11/os_x11.cpp:494) - XCreateIC couldn't create xic
+OpenGL ES 3.0 Renderer: Mesa Intel(R) UHD Graphics (CML GT2)
+OpenGL ES Batching: ON
+ 
+ERROR: Cannot open file 'res://Scenes/main.tscn'.
+   at: load_interactive (scene/resources/resource_format_text.cpp:1183) - Condition "err != OK" is true. Returned: Ref<ResourceInteractiveLoader>()
+ERROR: Failed loading resource: res://Scenes/main.tscn. Make sure resources have been imported by opening the project in the editor at least once.
+   at: _load (core/io/resource_loader.cpp:270) - Condition "found" is true. Returned: RES()
+ERROR: Failed loading scene: res://Scenes/main.tscn
+   at: start (main/main.cpp:2011) - Condition "!scene" is true. Returned: false
+WARNING: ObjectDB instances leaked at exit (run with --verbose for details).
+   at: cleanup (core/object.cpp:2064) - ObjectDB instances leaked at exit (run with --verbose for details).
