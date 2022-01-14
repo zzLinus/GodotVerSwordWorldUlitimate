@@ -12,10 +12,6 @@ func getConfigWarning() -> String:
 		return ""
 
 
-
-
-
-
 func _on_Portal_body_entered(body):
 	if get_tree().change_scene(nextScenePath) != OK:
 		print("unavaliable load scene")

@@ -373,8 +373,8 @@ position = Vector2( -203, 235 )
 polygon = PoolVector2Array( 99, 358, 99, -395, 37, -396, 37, 357 )
 
 [node name="CollisionPolygon2D9" type="CollisionPolygon2D" parent="StaticBody2D"]
-position = Vector2( 458, 740 )
-polygon = PoolVector2Array( 334, -97, 334, -148, 14, -148, 14, -99 )
+position = Vector2( 463, 743 )
+polygon = PoolVector2Array( 334, -97, 334, -148, -289, -145, -289, -100 )
 
 [node name="CollisionPolygon2D8" type="CollisionPolygon2D" parent="StaticBody2D"]
 position = Vector2( 447, 227 )
