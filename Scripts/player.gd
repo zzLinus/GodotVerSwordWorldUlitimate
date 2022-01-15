@@ -19,26 +19,27 @@ func changeAnimationState(animation:String) -> void:
 func move(delta):
 	velocity = Vector2()
 
-	if Input.is_action_pressed("up"):
-		velocity.y -= 1
-		changeAnimationState("run")
-	elif Input.is_action_pressed("down"):
-		velocity.y += 1
-		changeAnimationState("run")
+	if not Input.is_action_pressed("stop"):
+		if Input.is_action_pressed("up"):
+			velocity.y -= 1
+			changeAnimationState("run")
+		elif Input.is_action_pressed("down"):
+			velocity.y += 1
+			changeAnimationState("run")
 
-	if Input.is_action_pressed("left"):
-		velocity.x -= 1
-		animatedSprite.flip_h = true
-		direction = Vector2(-1,0)
-		changeAnimationState("run")
-	elif Input.is_action_pressed("right"):
-		velocity.x += 1
-		animatedSprite.flip_h = false
-		direction = Vector2(1,0)
-		changeAnimationState("run")
+		if Input.is_action_pressed("left"):
+			velocity.x -= 1
+			animatedSprite.flip_h = true
+			direction = Vector2(-1,0)
+			changeAnimationState("run")
+		elif Input.is_action_pressed("right"):
+			velocity.x += 1
+			animatedSprite.flip_h = false
+			direction = Vector2(1,0)
+			changeAnimationState("run")
 
-	if(velocity.x == 0 && velocity.y == 0):
-		changeAnimationState("idle")
+		if(velocity.x == 0 && velocity.y == 0):
+			changeAnimationState("idle")
 
 	velocity = velocity.normalized()
 
