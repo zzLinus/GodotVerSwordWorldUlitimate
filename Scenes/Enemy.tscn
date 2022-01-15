@@ -17,14 +17,14 @@
 
 [sub_resource type="SpriteFrames" id=1]
 animations = [ {
-"frames": [ ExtResource( 9 ), ExtResource( 8 ), ExtResource( 7 ), ExtResource( 6 ) ],
-"loop": true,
-"name": "monsterRun",
-"speed": 10.0
-}, {
 "frames": [ ExtResource( 4 ), ExtResource( 3 ), ExtResource( 2 ), ExtResource( 5 ) ],
 "loop": true,
 "name": "monsterIdle",
+"speed": 10.0
+}, {
+"frames": [ ExtResource( 9 ), ExtResource( 8 ), ExtResource( 7 ), ExtResource( 6 ) ],
+"loop": true,
+"name": "monsterRun",
 "speed": 10.0
 } ]
 
@@ -80,6 +80,8 @@ margin_top = -25.0
 margin_right = 24.0
 margin_bottom = 15.0
 rect_scale = Vector2( 1, 1 )
+
+[node name="Timer" type="Timer" parent="."]
 
 [editable path="Hitbox"]
 [editable path="Hurtbox"]

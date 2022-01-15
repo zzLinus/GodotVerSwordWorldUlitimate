@@ -25,6 +25,7 @@ onready var animPlayer = $AniamtionPlayer
 onready var animatiedSprite = $AnimatedSprite
 onready var attackTimer = $Timer
 
+
 func set_hp(value : int):
 	print("hp befor change" + str(self.hp))
 	if hp + value == hp:
@@ -45,10 +46,12 @@ func set_hp(value : int):
 	print("hp after change" + str(self.hp))
 	emit_signal("hp_changed",hp)
 
+
 func ThrowDaggers() -> void:
 	if DAGGER:
 		var dagger = DAGGER.instance()
 		var angle : float = PI
+		var fireSoundPlayer = get_node("../FireSound")
 		get_tree().current_scene.add_child(dagger)
 		dagger.global_position = self.global_position  + Vector2.ONE * 16
 
@@ -77,12 +80,12 @@ func ThrowDaggers() -> void:
 
 		var dagger_rotation = angle
 		dagger.rotation = dagger_rotation
+		fireSoundPlayer.play()
 
 		attackTimer.start()
 
 
 func spawnEffect(effect: PackedScene,effectPos: Vector2 = global_position):
-	if effect:
 		var currEffect = effect.instance()
 		get_tree().current_scene.add_child(currEffect)
 		currEffect.global_position = effectPos
@@ -102,7 +105,8 @@ func ReceiveKnockback(damageSourcePos : Vector2,reciveDamage : int):
 		var knockBackStength : float = reciveDamage * knockBackModifier
 		var knockBack : Vector2 = knockBackDir * knockBackStength
 		
-		global_position += knockBack
+		# global_position += knockBack
+		move_and_slide(knockBack * 50)
 
 
 func changeAnimationState(animation:String) -> void:
@@ -117,8 +121,10 @@ func changeAnimationState(animation:String) -> void:
 	animatedSprite.play(animation)
 	currAnimState = animation
 
+
 func _ready():
 	healthBar.max_value = hpMax
+
 
 func _physics_process(delta):
 	if Input.is_action_pressed("action_attack") && specise == 1 && attackTimer.is_stopped():
@@ -132,15 +138,29 @@ func die():
 
 func _on_Hurtbox_area_entered(hitbox : Area2D):
 	var baseDamage = hitbox.damage
+	var hurtSoundPlayer = get_node("../HurtSound")
 	if baseDamage == 0:
 		return
-	print(str(hitbox.get_path()) + "=>" + name)
-	set_hp(-baseDamage)
-	ReceiveKnockback(hitbox.global_position,baseDamage)
-	spawnEffect(effectHit)
-	spawnDmgindicator(baseDamage)
-	print(hitbox.get_parent().name + "'s hitbox touched" + name + "'s hurbox and damage " + str(baseDamage))
-	print("object hp: " + str(self.hp))
+	
+	if(hitbox.get_parent().name == "Enemy" && attackTimer.is_stopped()):
+		print(str(hitbox.get_path()) + "=>" + name)
+		set_hp(-baseDamage)
+		ReceiveKnockback(hitbox.global_position,baseDamage)
+		spawnEffect(effectHit)
+		spawnDmgindicator(baseDamage)
+		print(hitbox.get_parent().name + "'s hitbox touched" + name + "'s hurbox and damage " + str(baseDamage))
+		print("object hp: " + str(self.hp))
+		attackTimer.start()
+		hurtSoundPlayer.play()
+	elif(hitbox.get_parent().name != "Enemy"):
+		print(str(hitbox.get_path()) + "=>" + name)
+		set_hp(-baseDamage)
+		ReceiveKnockback(hitbox.global_position,baseDamage)
+		spawnEffect(effectHit)
+		spawnDmgindicator(baseDamage)
+		print(hitbox.get_parent().name + "'s hitbox touched" + name + "'s hurbox and damage " + str(baseDamage))
+		print("object hp: " + str(self.hp))
+		hurtSoundPlayer.play()
 
 
 func _on_Hurtbox_body_entered(body:Node):

@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/Cancel or Gun (5).wav-bea38b5e6314da3f913b786306a9f100.sample"
+
+[deps]
+
+source_file="res://Assets/Music/sound/Cancel or Gun (5).wav"
+dest_files=[ "res://.import/Cancel or Gun (5).wav-bea38b5e6314da3f913b786306a9f100.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0
