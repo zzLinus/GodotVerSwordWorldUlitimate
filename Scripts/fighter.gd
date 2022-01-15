@@ -7,12 +7,18 @@ class_name fighter
 signal hp_changed(newHp)
 signal died
 
-export(int) var hpMax : int = 100
+const INDICATOR_DAMAGE = preload("res://Scenes/DamageIndicator.tscn")
+
+export(int) var hpMax : int = 300
 export(int) var hp: int = hpMax setget set_hp
 export(int) var defence : int = 0
 export(int) var specise : int = 1
+export(bool) var receivKnockback : bool = true
+export(float) var knockBackModifier : float = 2
+export(PackedScene) var effectHit : PackedScene = null
 
 
+onready var healthBar = $HealthBar
 onready var sprite = $Spirte
 onready var collshape = $CollisionShape2D
 onready var animPlayer = $AniamtionPlayer
@@ -27,14 +33,19 @@ func set_hp(value : int):
 	if hp + value < 0:
 		hp = 0
 		emit_signal("died")
+		die()
 		return
 	else:
 		hp += value
 
+	if hp != hpMax:
+		healthBar.show()
+
+	healthBar.animateHpChange(hp)
 	print("hp after change" + str(self.hp))
 	emit_signal("hp_changed",hp)
 
-func ThrowDaggers():
+func ThrowDaggers() -> void:
 	if DAGGER:
 		var dagger = DAGGER.instance()
 		var angle : float = PI
@@ -70,6 +81,30 @@ func ThrowDaggers():
 		attackTimer.start()
 
 
+func spawnEffect(effect: PackedScene,effectPos: Vector2 = global_position):
+	if effect:
+		var currEffect = effect.instance()
+		get_tree().current_scene.add_child(currEffect)
+		currEffect.global_position = effectPos
+		return currEffect
+
+
+func spawnDmgindicator(damage : int):
+	var indicator = spawnEffect(INDICATOR_DAMAGE)
+	if indicator:
+		print("sucess load float text")
+		indicator.lable.text = str(damage)
+
+
+func ReceiveKnockback(damageSourcePos : Vector2,reciveDamage : int):
+	if receivKnockback:
+		var knockBackDir : Vector2 = damageSourcePos.direction_to(self.global_position)
+		var knockBackStength : float = reciveDamage * knockBackModifier
+		var knockBack : Vector2 = knockBackDir * knockBackStength
+		
+		global_position += knockBack
+
+
 func changeAnimationState(animation:String) -> void:
 	if currAnimState == animation:
 		return
@@ -82,16 +117,16 @@ func changeAnimationState(animation:String) -> void:
 	animatedSprite.play(animation)
 	currAnimState = animation
 
+func _ready():
+	healthBar.max_value = hpMax
+
 func _physics_process(delta):
 	if Input.is_action_pressed("action_attack") && specise == 1 && attackTimer.is_stopped():
 		ThrowDaggers()
 
+
 func die():
 	queue_free()
-
-
-
-
 	print("player died")
 
 
@@ -101,6 +136,9 @@ func _on_Hurtbox_area_entered(hitbox : Area2D):
 		return
 	print(str(hitbox.get_path()) + "=>" + name)
 	set_hp(-baseDamage)
+	ReceiveKnockback(hitbox.global_position,baseDamage)
+	spawnEffect(effectHit)
+	spawnDmgindicator(baseDamage)
 	print(hitbox.get_parent().name + "'s hitbox touched" + name + "'s hurbox and damage " + str(baseDamage))
 	print("object hp: " + str(self.hp))
 
