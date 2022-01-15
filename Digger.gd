@@ -7,7 +7,7 @@ func _physics_process(delta):
 	global_position += speed * direction * delta
 
 func _ready():
-	damage = 20
+	damage = 50
 
 func destroy():
 	queue_free()
