@@ -19,10 +19,7 @@ export(PackedScene) var effectHit : PackedScene = null
 
 
 onready var healthBar = $HealthBar
-onready var sprite = $Spirte
 onready var collshape = $CollisionShape2D
-onready var animPlayer = $AniamtionPlayer
-onready var animatiedSprite = $AnimatedSprite
 onready var attackTimer = $Timer
 
 
