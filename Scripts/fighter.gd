@@ -55,22 +55,6 @@ func ThrowDaggers() -> void:
 		get_tree().current_scene.add_child(dagger)
 		dagger.global_position = self.global_position  + Vector2.ONE * 16
 
-		# if(Input.is_action_pressed("weaponDown")):
-		# 	angle = 2 * PI * 0.25
-		# if(Input.is_action_pressed("weaponLeft")):
-		# 	angle = 2 * PI * 0.5
-		# if(Input.is_action_pressed("weaponUp")):
-		# 	angle = 2 * PI * 0.75
-		# if(Input.is_action_pressed("weaponRight")):
-		# 	angle = 2 * PI * 0
-		# if(Input.is_action_pressed("weaponRight") && Input.is_action_pressed("weaponDown")):
-		# 		angle = 2 * PI * 0.125
-		# if(Input.is_action_pressed("weaponDown") && Input.is_action_pressed("weaponLeft")):
-		# 		angle = 2 * PI * 0.375
-		# if(Input.is_action_pressed("weaponLeft") && Input.is_action_pressed("weaponUp")):
-		# 		angle = 2 * PI * 0.625
-		# if(Input.is_action_pressed("weaponUp") && Input.is_action_pressed("weaponRight")):
-		# 		angle = 2 * PI * 0.875
 
 
 		if(Input.is_action_pressed("up")):
