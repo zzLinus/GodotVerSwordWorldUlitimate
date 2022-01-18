@@ -48,6 +48,8 @@ func WindKnightAttack(attackType : int):
 		changeAnimationState("attack2")
 	elif attackType == 3:
 		changeAnimationState("attack3")
+	elif attackType == 4:
+		changeAnimationState("attack4")
 
 
 
@@ -132,6 +134,8 @@ func _physics_process(delta):
 		WindKnightAttack(2)
 	if Input.is_action_pressed("windKnightAttack3") && specise == 1 && attackTimer.is_stopped():
 		WindKnightAttack(3)
+	if Input.is_action_pressed("windKnightAttack4") && specise == 1 && attackTimer.is_stopped():
+		WindKnightAttack(4)
 
 
 func die():
@@ -206,6 +210,8 @@ func _on_AnimationPlayer_animation_finished(anim_name:String):
 	if anim_name == "windKnightAttack3":
 		attackIsStop = true
 	if anim_name == "windKnightAttack3left":
+		attackIsStop = true
+	if anim_name == "windKnightAttack4":
 		attackIsStop = true
 
 func savePlayerData():
