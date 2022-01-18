@@ -198,7 +198,9 @@ tracks/8/keys = {
 script = ExtResource( 6 )
 
 [node name="Particles2D" type="Particles2D" parent="."]
+modulate = Color( 2, 2, 2, 1 )
 position = Vector2( 11, 1 )
+rotation = -0.00118969
 z_index = 2
 amount = 25
 process_material = SubResource( 3 )

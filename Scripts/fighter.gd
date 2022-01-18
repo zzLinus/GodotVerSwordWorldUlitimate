@@ -54,7 +54,7 @@ func ThrowDaggers() -> void:
 
 
 
-		if(Input.is_action_pressed("up")):
+		if(Input.is_action_pressed("down")):
 			angle = 2 * PI * 0.25
 		if(Input.is_action_pressed("left")):
 			angle = 2 * PI * 0.5

@@ -22,9 +22,9 @@ func _ready():
 
 func MoveToNextMenu(nextMenuID : String):
 	var nextMenu = GetMenuFromID(nextMenuID)
-	tween.interpolate_property(currMenu,"rect_global_position",currMenu.rect_global_position,
+	tween.interpolate_property(currMenu,"rect_global_position",currMenu.rect_global_position	,
 		Vector2(-menuOriSize.x, 0),transitionTime)
-	tween.interpolate_property(nextMenu,"rect_global_position",nextMenu.rect_global_position,
+	tween.interpolate_property(nextMenu,"rect_global_position",nextMenu.rect_global_position	,
 		menuOriPos,transitionTime)
 	tween.start()
 	menuStack.append(currMenu)
