@@ -1,15 +1,8 @@
-[gd_scene load_steps=20 format=2]
+[gd_scene load_steps=19 format=2]
 
-[ext_resource path="res://Assets/PixelArt/frames/knight_f_run_anim_f3.png" type="Texture" id=1]
-[ext_resource path="res://Scripts/fighter.gd" type="Script" id=2]
-[ext_resource path="res://Assets/PixelArt/frames/knight_f_run_anim_f2.png" type="Texture" id=3]
-[ext_resource path="res://Assets/PixelArt/frames/knight_f_idle_anim_f2.png" type="Texture" id=4]
-[ext_resource path="res://Assets/PixelArt/frames/knight_f_idle_anim_f3.png" type="Texture" id=5]
-[ext_resource path="res://Assets/PixelArt/frames/knight_f_idle_anim_f1.png" type="Texture" id=6]
-[ext_resource path="res://Assets/PixelArt/frames/knight_f_run_anim_f1.png" type="Texture" id=7]
-[ext_resource path="res://Assets/PixelArt/frames/knight_f_run_anim_f0.png" type="Texture" id=8]
-[ext_resource path="res://Assets/PixelArt/frames/knight_f_idle_anim_f0.png" type="Texture" id=9]
-[ext_resource path="res://Scenes/HitEffect.tscn" type="PackedScene" id=10]
+[ext_resource path="res://Assets/PixelArt/wind_SpriteSheet_224x112.png" type="Texture" id=1]
+[ext_resource path="res://Scripts/player.gd" type="Script" id=2]
+[ext_resource path="res://Scenes/Hitbox.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Scenes/Hurtbox.tscn" type="PackedScene" id=11]
 [ext_resource path="res://Scripts/Hitbox.gd" type="Script" id=12]
 [ext_resource path="res://Scenes/HealthBar.tscn" type="PackedScene" id=13]
@@ -20,18 +13,273 @@
 radius = 8.5312
 height = 2.93761
 
-[sub_resource type="SpriteFrames" id=2]
-animations = [ {
-"frames": [ ExtResource( 8 ), ExtResource( 7 ), ExtResource( 3 ), ExtResource( 1 ) ],
-"loop": true,
-"name": "knightRun",
-"speed": 5.0
-}, {
-"frames": [ ExtResource( 9 ), ExtResource( 6 ), ExtResource( 4 ), ExtResource( 5 ) ],
-"loop": true,
-"name": "knightIdle",
-"speed": 5.0
-} ]
+[sub_resource type="Animation" id=8]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 1 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Sprite:frame_coords")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 0, 6 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("BladeHit/CollisionShape2D:disabled")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ false ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("BladeHit/CollisionShape2D:scale")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 1.92, 1 ) ]
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath("BladeHit/CollisionShape2D:position")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 9.588, 0 ) ]
+}
+tracks/5/type = "value"
+tracks/5/path = NodePath("BladeHit:position")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( -32, 32 ) ]
+}
+
+[sub_resource type="Animation" id=10]
+resource_name = "windKnightAttack1"
+length = 0.8
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame_coords")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0, 5 ), Vector2( 1, 5 ), Vector2( 2, 5 ), Vector2( 3, 5 ), Vector2( 4, 5 ), Vector2( 5, 5 ), Vector2( 6, 5 ), Vector2( 7, 5 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("BladeHit/CollisionShape2D:disabled")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.3 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ false, true ]
+}
+
+[sub_resource type="Animation" id=11]
+resource_name = "windKnightAttack2"
+length = 1.1
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame_coords")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 8, 6 ), Vector2( 9, 6 ), Vector2( 10, 6 ), Vector2( 11, 6 ), Vector2( 12, 6 ), Vector2( 13, 6 ), Vector2( 14, 6 ), Vector2( 15, 6 ), Vector2( 16, 6 ), Vector2( 17, 6 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("BladeHit/CollisionShape2D:disabled")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.4 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ false, false ]
+}
+
+[sub_resource type="Animation" id=12]
+resource_name = "windKnightAttack3left"
+length = 1.1
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame_coords")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 1 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 11, 7 ), Vector2( 12, 7 ), Vector2( 13, 7 ), Vector2( 14, 7 ), Vector2( 15, 7 ), Vector2( 20, 7 ), Vector2( 17, 7 ), Vector2( 18, 7 ), Vector2( 19, 7 ), Vector2( 25, 7 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("BladeHit/CollisionShape2D:disabled")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.3, 0.9, 1.1 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 1,
+"values": [ true, false, true, true ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("BladeHit:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.6, 0.7, 0.8, 1.1 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 16, 32 ), Vector2( 40, 32 ), Vector2( 80, 32 ), Vector2( 72, 32 ), Vector2( 24, 32 ) ]
+}
+
+[sub_resource type="Animation" id=13]
+resource_name = "windKnightAttack3left"
+length = 1.1
+tracks/0/type = "value"
+tracks/0/path = NodePath("BladeHit/CollisionShape2D:disabled")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.2, 0.9 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ true, false, true ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Sprite:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 221, 222, 223, 224, 225, 226, 227, 228, 229, 230, 235 ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("BladeHit:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.5, 0.6, 0.8, 1, 1.1 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( -40, 32 ), Vector2( -40, 32 ), Vector2( -64, 32 ), Vector2( -96, 32 ), Vector2( -40, 32 ), Vector2( 24, 32 ) ]
+}
+
+[sub_resource type="Animation" id=7]
+resource_name = "windKnightIdle"
+length = 0.8
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 0, 1, 2, 3, 4, 5, 6, 7 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("BladeHit/CollisionShape2D:disabled")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+
+[sub_resource type="Animation" id=9]
+resource_name = "windKnightRun"
+length = 0.8
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 30, 31, 32, 33, 34, 35, 36, 37 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("BladeHit/CollisionShape2D:disabled")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
 
 [sub_resource type="CapsuleShape2D" id=5]
 height = 18.0
@@ -43,14 +291,30 @@ polygon = PoolVector2Array( 40, 17, 54, 17, 55, 19, 40, 19 )
 collision_layer = 2
 collision_mask = 5
 script = ExtResource( 2 )
-effectHit = ExtResource( 10 )
 
 [node name="Light2D" type="Light2D" parent="."]
 position = Vector2( 16, 25 )
 texture = ExtResource( 15 )
 energy = 0.43
 
+[node name="BladeHit" parent="." instance=ExtResource( 3 )]
+position = Vector2( -32, 32 )
+collision_layer = 8
+collision_mask = 4
+damage = 10
+
+[node name="CollisionShape2D" parent="BladeHit" index="0"]
+position = Vector2( 9.588, 0 )
+scale = Vector2( 1.92, 1 )
+
 [node name="Sprite" type="Sprite" parent="."]
+position = Vector2( 16, -12 )
+texture = ExtResource( 1 )
+hframes = 30
+vframes = 12
+frame = 180
+
+[node name="Sprite1" type="Sprite" parent="."]
 modulate = Color( 1, 1, 1, 0.47451 )
 position = Vector2( 14, 36 )
 scale = Vector2( 1.83427, 1.90096 )
@@ -61,13 +325,14 @@ position = Vector2( 16, 36 )
 rotation = -1.57079
 shape = SubResource( 3 )
 
-[node name="AnimatedSprite" type="AnimatedSprite" parent="."]
-position = Vector2( 16, 16 )
-scale = Vector2( 2, 2 )
-frames = SubResource( 2 )
-animation = "knightIdle"
-frame = 3
-speed_scale = 2.0
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/RESET = SubResource( 8 )
+anims/windKnightAttack1 = SubResource( 10 )
+anims/windKnightAttack2 = SubResource( 11 )
+anims/windKnightAttack3 = SubResource( 12 )
+anims/windKnightAttack3left = SubResource( 13 )
+anims/windKnightIdle = SubResource( 7 )
+anims/windKnightRun = SubResource( 9 )
 
 [node name="Camera2D" type="Camera2D" parent="."]
 current = true
@@ -99,6 +364,8 @@ position = Vector2( -32, 25 )
 occluder = SubResource( 6 )
 
 [connection signal="died" from="." to="." method="_on_Player_died"]
+[connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]
 
+[editable path="BladeHit"]
 [editable path="Hurtbox"]
 [editable path="HealthBar"]

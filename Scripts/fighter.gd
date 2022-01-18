@@ -9,13 +9,14 @@ signal died
 
 const INDICATOR_DAMAGE = preload("res://Scenes/DamageIndicator.tscn")
 
-export(int) var hpMax : int = 300
-export(int) var hp: int = hpMax setget set_hp
-export(int) var defence : int = 0
-export(int) var specise : int = 1
-export(bool) var receivKnockback : bool = true
-export(float) var knockBackModifier : float = 2
-export(PackedScene) var effectHit : PackedScene = null
+var hpMax : int = AutoloadScript.playerData.hpMax
+var hp: int = AutoloadScript.playerData.hp setget set_hp
+var defence : int = 0
+var specise : int = AutoloadScript.playerData.specise
+var attackIsStop : bool 
+var receivKnockback : bool = true
+var knockBackModifier : float = 2
+var effectHit : PackedScene = null
 
 
 onready var healthBar = $HealthBar
@@ -24,11 +25,8 @@ onready var attackTimer = $Timer
 
 
 func set_hp(value : int):
-	print("hp befor change" + str(self.hp))
-	if hp + value == hp:
-		return
-
-	if hp + value < 0:
+	# print("hp befor change" + str(self.hp))
+	if hp + value <= 0:
 		hp = 0
 		emit_signal("died")
 		die()
@@ -40,8 +38,17 @@ func set_hp(value : int):
 		healthBar.show()
 
 	healthBar.animateHpChange(hp)
-	print("hp after change" + str(self.hp))
+	# print("hp after change" + str(self.hp))
 	emit_signal("hp_changed",hp)
+
+func WindKnightAttack(attackType : int):
+	if attackType == 1:
+		changeAnimationState("attack1")
+	elif attackType == 2:
+		changeAnimationState("attack2")
+	elif attackType == 3:
+		changeAnimationState("attack3")
+
 
 
 func ThrowDaggers() -> void:
@@ -72,9 +79,9 @@ func ThrowDaggers() -> void:
 				angle = 2 * PI * 0.875
 
 		if angle == PI:
-			if direction == Vector2(1,0):
+			if direction == Vector2(-1,0):
 				angle = 0
-			elif direction == Vector2(-1,0):
+			elif direction == Vector2(1,0):
 				angle = PI
 
 		var dagger_rotation = angle
@@ -94,7 +101,6 @@ func spawnEffect(effect: PackedScene,effectPos: Vector2 = global_position):
 func spawnDmgindicator(damage : int):
 	var indicator = spawnEffect(INDICATOR_DAMAGE)
 	if indicator:
-		print("sucess load float text")
 		indicator.lable.text = str(damage)
 
 
@@ -108,26 +114,24 @@ func ReceiveKnockback(damageSourcePos : Vector2,reciveDamage : int):
 		move_and_slide(knockBack * 50)
 
 
-func changeAnimationState(animation:String) -> void:
-	if currAnimState == animation:
-		return
-
-	if specise == 1 && animation == "run":
-		animation = "knightRun"
-	elif specise == 1 && animation == "idle":
-		animation = "knightIdle"
-
-	animatedSprite.play(animation)
-	currAnimState = animation
 
 
 func _ready():
 	healthBar.max_value = hpMax
+	attackIsStop = true
+	loadPlayerData()
+	set_hp(0)
 
 
 func _physics_process(delta):
 	if Input.is_action_pressed("action_attack") && specise == 1 && attackTimer.is_stopped():
 		ThrowDaggers()
+	if Input.is_action_pressed("windKnightAttack") && specise == 1 && attackTimer.is_stopped():
+		WindKnightAttack(1)
+	if Input.is_action_pressed("windKnightAttack2") && specise == 1 && attackTimer.is_stopped():
+		WindKnightAttack(2)
+	if Input.is_action_pressed("windKnightAttack3") && specise == 1 && attackTimer.is_stopped():
+		WindKnightAttack(3)
 
 
 func die():
@@ -136,31 +140,82 @@ func die():
 
 
 func _on_Hurtbox_area_entered(hitbox : Area2D):
-	var baseDamage = hitbox.damage
-	var hurtSoundPlayer = get_node("../HurtSound")
-	if baseDamage == 0:
-		return
+	print(hitbox.name)
 	
 	if(hitbox.get_parent().name == "Enemy" && attackTimer.is_stopped()):
-		print(str(hitbox.get_path()) + "=>" + name)
+		var baseDamage = hitbox.damage
+		var hurtSoundPlayer = get_node("../HurtSound")
+		if baseDamage == 0:
+			return
+
+		# print(str(hitbox.get_path()) + "=>" + name)
 		set_hp(-baseDamage)
 		ReceiveKnockback(hitbox.global_position,baseDamage)
 		spawnEffect(effectHit)
 		spawnDmgindicator(baseDamage)
-		print(hitbox.get_parent().name + "'s hitbox touched" + name + "'s hurbox and damage " + str(baseDamage))
-		print("object hp: " + str(self.hp))
+		# print(hitbox.get_parent().name + "'s hitbox touched" + name + "'s hurbox and damage " + str(baseDamage))
+		# print("object hp: " + str(self.hp))
 		attackTimer.start()
 		hurtSoundPlayer.play()
-	elif(hitbox.get_parent().name != "Enemy"):
-		print(str(hitbox.get_path()) + "=>" + name)
+	elif(hitbox.name == "PlayerDigger"):
+		var baseDamage = hitbox.damage
+		var hurtSoundPlayer = get_node("../HurtSound")
+		if baseDamage == 0:
+			return
+		# print("hitbox: " + hitbox.name)
+		# print(str(hitbox.get_path()) + "=>" + name)
 		set_hp(-baseDamage)
 		ReceiveKnockback(hitbox.global_position,baseDamage)
 		spawnEffect(effectHit)
 		spawnDmgindicator(baseDamage)
-		print(hitbox.get_parent().name + "'s hitbox touched" + name + "'s hurbox and damage " + str(baseDamage))
-		print("object hp: " + str(self.hp))
+		# print(hitbox.get_parent().name + "'s hitbox touched" + name + "'s hurbox and damage " + str(baseDamage))
+		# print("object hp: " + str(self.hp))
 		hurtSoundPlayer.play()
+	elif(hitbox.name == "BladeHit"):
+		var baseDamage = hitbox.damage
+		var hurtSoundPlayer = get_node("../HurtSound")
+		if baseDamage == 0:
+			return
+		# print("hitbox: " + hitbox.name)
+		# print(str(hitbox.get_path()) + "=>" + name)
+		set_hp(-baseDamage)
+		ReceiveKnockback(hitbox.global_position,baseDamage)
+		spawnEffect(effectHit)
+		spawnDmgindicator(baseDamage)
+		# print(hitbox.get_parent().name + "'s hitbox touched" + name + "'s hurbox and damage " + str(baseDamage))
+		# print("object hp: " + str(self.hp))
+		hurtSoundPlayer.play()
+	else:
+		print("hitbox: " + hitbox.name)
+		pass
 
 
 func _on_Hurtbox_body_entered(body:Node):
 	pass # Replace with function body.
+
+
+
+func _on_Player_died():
+	pass # Replace with function body.
+
+func _on_AnimationPlayer_animation_finished(anim_name:String):
+	if anim_name == "windKnightAttack1":
+		attackIsStop = true
+	if anim_name == "windKnightAttack2":
+		attackIsStop = true
+	if anim_name == "windKnightAttack3":
+		attackIsStop = true
+	if anim_name == "windKnightAttack3left":
+		attackIsStop = true
+
+func savePlayerData():
+	AutoloadScript.playerData.hp = hp
+	AutoloadScript.playerData.hpMax = hpMax
+	AutoloadScript.playerData.specise = specise
+
+
+func loadPlayerData() -> void:
+	hp = AutoloadScript.playerData.hp
+	hpMax = AutoloadScript.playerData.hpMax 
+	specise = AutoloadScript.playerData.specise 
+

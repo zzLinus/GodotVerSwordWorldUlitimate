@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/兼岡行男 - Donkey Kong (ドンキーコング).wav-4d0d4e4d3bdc59d9a5393a1ee7816404.sample"
+
+[deps]
+
+source_file="res://Assets/Music/兼岡行男 - Donkey Kong (ドンキーコング).wav"
+dest_files=[ "res://.import/兼岡行男 - Donkey Kong (ドンキーコング).wav-4d0d4e4d3bdc59d9a5393a1ee7816404.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

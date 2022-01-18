@@ -13,6 +13,8 @@ func getConfigWarning() -> String:
 
 
 func _on_Portal_body_entered(body):
+	var player := get_node("../Player")
+	player.savePlayerData()
 	if get_tree().change_scene(nextScenePath) != OK:
 		print("unavaliable load scene")
 

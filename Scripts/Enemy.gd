@@ -1,13 +1,11 @@
 extends fighter
 
+onready var animatedSprite = $AnimatedSprite
+onready var spirte = $AnimatedSprite
+
 func changeAnimationState(animation:String) -> void:
 	if currAnimState == animation:
 		return
-
-	if specise == 1 && animation == "run":
-		animation = "knightRun"
-	elif specise == 1 && animation == "idle":
-		animation = "knightIdle"
 
 	if specise == 2 && animation == "run":
 		animation = "monsterRun"
