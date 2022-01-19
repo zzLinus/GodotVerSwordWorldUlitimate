@@ -1,4 +1,7 @@
 extends Area2D
 class_name hitbox
 
-export(int) var damage : int = 20
+var damage
+
+func _process(delta):
+	damage = AutoloadScript.playerDamage

@@ -46,7 +46,7 @@ func move(delta):
 
 	velocity = velocity.normalized()
 
-	velocity = move_and_slide(velocity * 15000 * delta)
+	velocity = move_and_slide(velocity * 10000 * delta)
 
 func _ready():
 	specise = 2

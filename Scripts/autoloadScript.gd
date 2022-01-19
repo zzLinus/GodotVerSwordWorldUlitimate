@@ -1,5 +1,9 @@
 extends Node2D
 
+var daggerHit : bool = false
+var enemyNode 
+var playerDamage
+
 var playerData = {
 	"hp" : 300,
 	"hpMax" : 300,
@@ -9,5 +13,6 @@ var playerData = {
 	}
 
 func _ready():
+	playerDamage = 10
 	pass # Replace with function body.
 

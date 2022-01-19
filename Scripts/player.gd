@@ -31,7 +31,7 @@ func move(delta):
 			velocity.x += 1
 			direction = Vector2(1,1)
 			sprite.flip_h = false 
-			hitbox.position.x = -hitboxPos.x
+			hitbox.position.x = -hitboxPos.x - 10
 			changeAnimationState("run")
 
 		if(velocity.x == 0 && velocity.y == 0):

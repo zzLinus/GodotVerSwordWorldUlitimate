@@ -16,12 +16,16 @@ var specise : int = AutoloadScript.playerData.specise
 var attackIsStop : bool 
 var receivKnockback : bool = true
 var knockBackModifier : float = 2
-var effectHit : PackedScene = null
+export(PackedScene) var effectHit : PackedScene = null
 
 
 onready var healthBar = $HealthBar
 onready var collshape = $CollisionShape2D
 onready var attackTimer = $Timer
+
+func MoveWhithEnemy():
+	if AutoloadScript.enemyNode != null:
+		global_position = AutoloadScript.enemyNode.global_position
 
 
 func set_hp(value : int):
@@ -81,9 +85,9 @@ func ThrowDaggers() -> void:
 				angle = 2 * PI * 0.875
 
 		if angle == PI:
-			if direction == Vector2(-1,0):
+			if direction == Vector2(1,1):
 				angle = 0
-			elif direction == Vector2(1,0):
+			elif direction == Vector2(-1,1):
 				angle = PI
 
 		var dagger_rotation = angle
@@ -113,7 +117,7 @@ func ReceiveKnockback(damageSourcePos : Vector2,reciveDamage : int):
 		var knockBack : Vector2 = knockBackDir * knockBackStength
 		
 		# global_position += knockBack
-		move_and_slide(knockBack * 50)
+		move_and_slide(knockBack * 10)
 
 
 
@@ -124,18 +128,28 @@ func _ready():
 	loadPlayerData()
 	set_hp(0)
 
+func yoveWhitEenmy():
+	global_position = AutoloadScript.enemyNode.global_position
+
 
 func _physics_process(delta):
-	if Input.is_action_pressed("action_attack") && specise == 1 && attackTimer.is_stopped():
-		ThrowDaggers()
+	if AutoloadScript.daggerHit == true:
+		MoveWhithEnemy()
+		AutoloadScript.playerDamage = 40
+		WindKnightAttack(4)
+		AutoloadScript.daggerHit = false
 	if Input.is_action_pressed("windKnightAttack") && specise == 1 && attackTimer.is_stopped():
+		AutoloadScript.playerDamage = 20
 		WindKnightAttack(1)
 	if Input.is_action_pressed("windKnightAttack2") && specise == 1 && attackTimer.is_stopped():
+		AutoloadScript.playerDamage = 40
 		WindKnightAttack(2)
 	if Input.is_action_pressed("windKnightAttack3") && specise == 1 && attackTimer.is_stopped():
+		AutoloadScript.playerDamage = 60
 		WindKnightAttack(3)
 	if Input.is_action_pressed("windKnightAttack4") && specise == 1 && attackTimer.is_stopped():
-		WindKnightAttack(4)
+		AutoloadScript.playerDamage = 5
+		ThrowDaggers()
 
 
 func die():
@@ -144,13 +158,11 @@ func die():
 
 
 func _on_Hurtbox_area_entered(hitbox : Area2D):
-	print(hitbox.name)
+	print(hitbox.get_parent().name)
 	
 	if(hitbox.get_parent().name == "Enemy" && attackTimer.is_stopped()):
 		var baseDamage = hitbox.damage
 		var hurtSoundPlayer = get_node("../HurtSound")
-		if baseDamage == 0:
-			return
 
 		# print(str(hitbox.get_path()) + "=>" + name)
 		set_hp(-baseDamage)
@@ -164,12 +176,12 @@ func _on_Hurtbox_area_entered(hitbox : Area2D):
 	elif(hitbox.name == "PlayerDigger"):
 		var baseDamage = hitbox.damage
 		var hurtSoundPlayer = get_node("../HurtSound")
-		if baseDamage == 0:
-			return
 		# print("hitbox: " + hitbox.name)
 		# print(str(hitbox.get_path()) + "=>" + name)
 		set_hp(-baseDamage)
 		ReceiveKnockback(hitbox.global_position,baseDamage)
+		AutoloadScript.daggerHit = true
+		AutoloadScript.enemyNode = get_node(self.get_path())
 		spawnEffect(effectHit)
 		spawnDmgindicator(baseDamage)
 		# print(hitbox.get_parent().name + "'s hitbox touched" + name + "'s hurbox and damage " + str(baseDamage))
@@ -178,8 +190,6 @@ func _on_Hurtbox_area_entered(hitbox : Area2D):
 	elif(hitbox.name == "BladeHit"):
 		var baseDamage = hitbox.damage
 		var hurtSoundPlayer = get_node("../HurtSound")
-		if baseDamage == 0:
-			return
 		# print("hitbox: " + hitbox.name)
 		# print(str(hitbox.get_path()) + "=>" + name)
 		set_hp(-baseDamage)
