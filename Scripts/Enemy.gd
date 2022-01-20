@@ -58,3 +58,5 @@ func _physics_process(delta):
 		node.scale.x = 0.5
 		node.scale.y = 0.5
 
+func loadPlayerData() -> void:
+	pass

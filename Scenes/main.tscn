@@ -2824,7 +2824,7 @@ tile_data = PoolIntArray( -2162716, 1, 0, -2162715, 1, 0, -2162714, 1, 0, -21627
 
 [node name="Player" parent="." instance=ExtResource( 2 )]
 position = Vector2( 437, 249 )
-z_index = 3
+z_index = 2
 effectHit = ExtResource( 12 )
 
 [node name="Sprite" parent="Player" index="3"]

@@ -16,12 +16,15 @@ var specise : int = AutoloadScript.playerData.specise
 var attackIsStop : bool 
 var receivKnockback : bool = true
 var knockBackModifier : float = 2
+var comboAction : int = 1
 export(PackedScene) var effectHit : PackedScene = null
 
 
 onready var healthBar = $HealthBar
 onready var collshape = $CollisionShape2D
-onready var attackTimer = $Timer
+
+onready var attackTimer = $Attacktimer
+onready var comboTimer = $ComboTimer
 
 func MoveWhithEnemy():
 	if AutoloadScript.enemyNode != null:
@@ -138,18 +141,34 @@ func _physics_process(delta):
 		AutoloadScript.playerDamage = 40
 		WindKnightAttack(4)
 		AutoloadScript.daggerHit = false
-	if Input.is_action_pressed("windKnightAttack") && specise == 1 && attackTimer.is_stopped():
-		AutoloadScript.playerDamage = 20
-		WindKnightAttack(1)
-	if Input.is_action_pressed("windKnightAttack2") && specise == 1 && attackTimer.is_stopped():
-		AutoloadScript.playerDamage = 40
-		WindKnightAttack(2)
-	if Input.is_action_pressed("windKnightAttack3") && specise == 1 && attackTimer.is_stopped():
-		AutoloadScript.playerDamage = 60
-		WindKnightAttack(3)
 	if Input.is_action_pressed("windKnightAttack4") && specise == 1 && attackTimer.is_stopped():
 		AutoloadScript.playerDamage = 5
 		ThrowDaggers()
+
+	#combo system
+	if Input.is_action_pressed("windKnightAttack") && self.name == "Player" && attackIsStop: 
+		if comboAction == 1:
+			comboTimer.start()
+		print(comboAction)
+		if comboTimer.is_stopped():
+				comboAction = 1
+		elif specise == 1 && attackTimer.is_stopped() && !comboTimer.is_stopped():
+			if comboAction == 1:
+				comboTimer.start()
+				AutoloadScript.playerDamage = 20
+				WindKnightAttack(comboAction)
+				comboAction += 1
+			elif comboAction == 2:
+				comboTimer.start()
+				AutoloadScript.playerDamage = 40
+				WindKnightAttack(comboAction)
+				comboAction += 1
+			elif comboAction == 3:
+				comboTimer.start()
+				AutoloadScript.playerDamage = 60
+				WindKnightAttack(comboAction)
+				comboAction = 1
+
 
 
 func die():
@@ -212,6 +231,7 @@ func _on_Hurtbox_body_entered(body:Node):
 func _on_Player_died():
 	pass # Replace with function body.
 
+
 func _on_AnimationPlayer_animation_finished(anim_name:String):
 	if anim_name == "windKnightAttack1":
 		attackIsStop = true
@@ -223,6 +243,7 @@ func _on_AnimationPlayer_animation_finished(anim_name:String):
 		attackIsStop = true
 	if anim_name == "windKnightAttack4":
 		attackIsStop = true
+
 
 func savePlayerData():
 	AutoloadScript.playerData.hp = hp
