@@ -18,6 +18,7 @@ var receivKnockback : bool = true
 var knockBackModifier : float = 2
 var comboAction : int = 1
 export(PackedScene) var effectHit : PackedScene = null
+export(PackedScene) var runSmoke: PackedScene = null
 
 
 onready var healthBar = $HealthBar
@@ -25,6 +26,7 @@ onready var collshape = $CollisionShape2D
 
 onready var attackTimer = $Attacktimer
 onready var comboTimer = $ComboTimer
+onready var runSmokeTimer = $RunSmoke
 
 func MoveWhithEnemy():
 	if AutoloadScript.enemyNode != null:
@@ -123,8 +125,6 @@ func ReceiveKnockback(damageSourcePos : Vector2,reciveDamage : int):
 		move_and_slide(knockBack * 10)
 
 
-
-
 func _ready():
 	healthBar.max_value = hpMax
 	attackIsStop = true
@@ -168,7 +168,6 @@ func _physics_process(delta):
 				AutoloadScript.playerDamage = 60
 				WindKnightAttack(comboAction)
 				comboAction = 1
-
 
 
 func die():
@@ -243,6 +242,10 @@ func _on_AnimationPlayer_animation_finished(anim_name:String):
 		attackIsStop = true
 	if anim_name == "windKnightAttack4":
 		attackIsStop = true
+	
+func SpawnRunSmoke():
+	spawnEffect(runSmoke,global_position + Vector2(10,30))
+	pass
 
 
 func savePlayerData():
@@ -255,4 +258,3 @@ func loadPlayerData() -> void:
 	hp = AutoloadScript.playerData.hp
 	hpMax = AutoloadScript.playerData.hpMax 
 	specise = AutoloadScript.playerData.specise 
-
