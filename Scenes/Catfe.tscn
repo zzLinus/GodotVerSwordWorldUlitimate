@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://Assets/PixelArt/CatFeTiles/emptyCatfe .png" type="Texture" id=1]
 [ext_resource path="res://Scenes/Player.tscn" type="PackedScene" id=2]
@@ -10,6 +10,7 @@
 [ext_resource path="res://Assets/PixelArt/CatFeTiles/cafedoor.png" type="Texture" id=8]
 [ext_resource path="res://Assets/PixelArt/0x72_16x16DungeonTileset.v4.png" type="Texture" id=9]
 [ext_resource path="res://Assets/PixelArt/CatFeTiles/Cafe_inside_glassonly.png" type="Texture" id=10]
+[ext_resource path="res://Scenes/tiantian.tscn" type="PackedScene" id=11]
 
 [sub_resource type="TileSet" id=1]
 0/name = "Cafe_inside_withoutglass.png 0"
@@ -403,3 +404,7 @@ polygon = PoolVector2Array( 157, -143, 189, -150, 190, -280, 157, -288, 95, -287
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="StaticBody2D"]
 position = Vector2( -106, 271 )
 polygon = PoolVector2Array( 1, -2, 2, 64, 134, 64, 136, -287, 94, -287, 94, 0 )
+
+[node name="tiantian" parent="." instance=ExtResource( 11 )]
+position = Vector2( 622, 503 )
+scale = Vector2( 0.2, 0.2 )

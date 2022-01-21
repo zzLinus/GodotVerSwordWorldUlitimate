@@ -15,6 +15,7 @@ var defence : int = 0
 var specise : int = AutoloadScript.playerData.specise
 var attackIsStop : bool 
 var receivKnockback : bool = true
+var lastState : bool
 var knockBackModifier : float = 2
 var comboAction : int = 1
 export(PackedScene) var effectHit : PackedScene = null
@@ -59,6 +60,10 @@ func WindKnightAttack(attackType : int):
 		changeAnimationState("attack3")
 	elif attackType == 4:
 		changeAnimationState("attack4")
+	elif attackType == 5:
+		changeAnimationState("back1")
+	elif attackType == 6:
+		changeAnimationState("back2")
 
 
 
@@ -136,38 +141,50 @@ func yoveWhitEenmy():
 
 
 func _physics_process(delta):
-	if AutoloadScript.daggerHit == true:
-		MoveWhithEnemy()
-		AutoloadScript.playerDamage = 40
-		WindKnightAttack(4)
-		AutoloadScript.daggerHit = false
-	if Input.is_action_pressed("windKnightAttack4") && specise == 1 && attackTimer.is_stopped():
-		AutoloadScript.playerDamage = 5
-		ThrowDaggers()
+	if self.name == "Player":
+		if AutoloadScript.daggerHit == true:
+			MoveWhithEnemy()
+			AutoloadScript.playerDamage = 20
+			WindKnightAttack(4)
+			AutoloadScript.daggerHit = false
+		if Input.is_action_pressed("windKnightAttack4") && specise == 1 && attackTimer.is_stopped():
+			AutoloadScript.playerDamage = 5
+			ThrowDaggers()
 
-	#combo system
-	if Input.is_action_pressed("windKnightAttack") && self.name == "Player" && attackIsStop: 
-		if comboAction == 1:
-			comboTimer.start()
-		print(comboAction)
-		if comboTimer.is_stopped():
-				comboAction = 1
-		elif specise == 1 && attackTimer.is_stopped() && !comboTimer.is_stopped():
+		#combo system
+
+		if Input.is_action_pressed("windKnightAttack") && self.name == "Player" && attackIsStop: 
 			if comboAction == 1:
 				comboTimer.start()
-				AutoloadScript.playerDamage = 20
-				WindKnightAttack(comboAction)
-				comboAction += 1
-			elif comboAction == 2:
-				comboTimer.start()
-				AutoloadScript.playerDamage = 40
-				WindKnightAttack(comboAction)
-				comboAction += 1
-			elif comboAction == 3:
-				comboTimer.start()
-				AutoloadScript.playerDamage = 60
-				WindKnightAttack(comboAction)
+
+			if comboTimer.is_stopped():
 				comboAction = 1
+
+			elif specise == 1 && attackTimer.is_stopped() && !comboTimer.is_stopped():
+				if comboAction == 1:
+					comboTimer.start()
+					AutoloadScript.playerDamage = 10
+					WindKnightAttack(comboAction)
+					comboAction += 1
+				elif comboAction == 2:
+					comboTimer.start()
+					AutoloadScript.playerDamage = 20
+					WindKnightAttack(comboAction)
+					comboAction += 1
+				elif comboAction == 3:
+					comboTimer.start()
+					AutoloadScript.playerDamage = 30
+					WindKnightAttack(comboAction)
+					comboAction = 1
+
+		if comboTimer.is_stopped() == true && lastState == false:
+			if comboAction == 2:
+				WindKnightAttack(5)
+			elif comboAction == 3:
+				WindKnightAttack(6)
+			comboAction = 1
+
+		lastState = comboTimer.is_stopped()
 
 
 func die():
@@ -241,6 +258,10 @@ func _on_AnimationPlayer_animation_finished(anim_name:String):
 	if anim_name == "windKnightAttack3left":
 		attackIsStop = true
 	if anim_name == "windKnightAttack4":
+		attackIsStop = true
+	if anim_name == "windKnightAttack1Close":
+		attackIsStop = true
+	if anim_name == "windKnightAttack2Close":
 		attackIsStop = true
 	
 func SpawnRunSmoke():

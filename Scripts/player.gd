@@ -71,6 +71,12 @@ func changeAnimationState(animation:String) -> void:
 	elif specise == 1 && animation == "attack4":
 		animation = "windKnightAttack4"
 		attackIsStop = false
+	elif specise == 1 && animation == "back1":
+		animation = "windKnightAttack1Close"
+		attackIsStop = false
+	elif specise == 1 && animation == "back2":
+		animation = "windKnightAttack2Close"
+		attackIsStop = false
 
 	animPlayer.play(animation)
 	# animatedSprite.play(animation)
