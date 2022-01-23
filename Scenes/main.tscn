@@ -11,7 +11,7 @@
 [ext_resource path="res://Assets/PixelArt/0x72_16x16DungeonTileset.v4.png" type="Texture" id=9]
 [ext_resource path="res://Scenes/Portal.tscn" type="PackedScene" id=10]
 [ext_resource path="res://Scenes/Enemy.tscn" type="PackedScene" id=11]
-[ext_resource path="res://Scenes/lamp.gd" type="Script" id=13]
+[ext_resource path="res://Scripts/lamp.gd" type="Script" id=13]
 [ext_resource path="res://Scenes/HitEffect3.tscn" type="PackedScene" id=14]
 [ext_resource path="res://Assets/Music/sound/Cancel or Gun (5).wav" type="AudioStream" id=16]
 [ext_resource path="res://Assets/Music/sound/explosion (1).wav" type="AudioStream" id=17]

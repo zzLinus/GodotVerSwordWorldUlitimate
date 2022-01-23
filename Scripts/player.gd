@@ -13,7 +13,7 @@ var hitboxPos
 func move(delta):
 	velocity = Vector2()
 
-	if not Input.is_action_pressed("stop"):
+	if !isDied:
 		if Input.is_action_pressed("up"):
 			velocity.y -= 1
 			changeAnimationState("run")
@@ -36,6 +36,9 @@ func move(delta):
 
 		if(velocity.x == 0 && velocity.y == 0):
 			changeAnimationState("idle")
+	elif isDied :
+		if dieDelay.is_stopped():
+			die()
 
 	velocity = velocity.normalized()
 
@@ -76,6 +79,9 @@ func changeAnimationState(animation:String) -> void:
 		attackIsStop = false
 	elif specise == 1 && animation == "back2":
 		animation = "windKnightAttack2Close"
+		attackIsStop = false
+	elif specise == 1 && animation == "playerDie":
+		animation = "windKnightDie"
 		attackIsStop = false
 
 	animPlayer.play(animation)

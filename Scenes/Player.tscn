@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=2]
+[gd_scene load_steps=23 format=2]
 
 [ext_resource path="res://Assets/PixelArt/wind_SpriteSheet_224x112.png" type="Texture" id=1]
 [ext_resource path="res://Scripts/player.gd" type="Script" id=2]
@@ -27,6 +27,18 @@ tracks/0/keys = {
 "transitions": PoolRealArray( 1 ),
 "update": 0,
 "values": [ Vector2( -32, 32 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Sprite:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 330 ]
 }
 
 [sub_resource type="Animation" id=10]
@@ -314,6 +326,22 @@ tracks/5/keys = {
 "values": [ true, false ]
 }
 
+[sub_resource type="Animation" id=17]
+resource_name = "windKnightDie"
+length = 1.8
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1, 1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 1.7 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 330, 330, 331, 332, 333, 334, 335, 336, 337, 338, 339, 342, 343, 344, 345, 346, 347, 348 ]
+}
+
 [sub_resource type="Animation" id=7]
 resource_name = "windKnightIdle"
 length = 0.8
@@ -401,7 +429,7 @@ position = Vector2( 16, -12 )
 texture = ExtResource( 1 )
 hframes = 30
 vframes = 12
-frame = 188
+frame = 330
 
 [node name="Sprite1" type="Sprite" parent="."]
 modulate = Color( 1, 1, 1, 0.47451 )
@@ -424,6 +452,7 @@ anims/windKnightAttack2Close = SubResource( 16 )
 anims/windKnightAttack3 = SubResource( 12 )
 anims/windKnightAttack3left = SubResource( 13 )
 anims/windKnightAttack4 = SubResource( 14 )
+anims/windKnightDie = SubResource( 17 )
 anims/windKnightIdle = SubResource( 7 )
 anims/windKnightRun = SubResource( 9 )
 
@@ -451,6 +480,10 @@ rect_scale = Vector2( 1.5, 1.5 )
 [node name="LightOccluder2D" type="LightOccluder2D" parent="."]
 position = Vector2( -32, 25 )
 occluder = SubResource( 6 )
+
+[node name="DieDelay" type="Timer" parent="."]
+wait_time = 1.8
+one_shot = true
 
 [connection signal="died" from="." to="." method="_on_Player_died"]
 [connection signal="area_entered" from="Hurtbox" to="." method="_on_Hurtbox_area_entered"]

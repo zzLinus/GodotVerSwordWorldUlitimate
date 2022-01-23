@@ -13,6 +13,6 @@ var playerData = {
 	}
 
 func _ready():
-	playerDamage = 10
+	playerDamage = 400
 	pass # Replace with function body.
 

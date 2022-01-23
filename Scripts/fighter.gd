@@ -18,6 +18,7 @@ var receivKnockback : bool = true
 var lastState : bool
 var knockBackModifier : float = 2
 var comboAction : int = 1
+var isDied : bool
 export(PackedScene) var effectHit : PackedScene = null
 export(PackedScene) var runSmoke: PackedScene = null
 
@@ -28,6 +29,7 @@ onready var collshape = $CollisionShape2D
 onready var attackTimer = $Attacktimer
 onready var comboTimer = $ComboTimer
 onready var runSmokeTimer = $RunSmoke
+onready var dieDelay = $DieDelay
 
 func MoveWhithEnemy():
 	if AutoloadScript.enemyNode != null:
@@ -39,7 +41,6 @@ func set_hp(value : int):
 	if hp + value <= 0:
 		hp = 0
 		emit_signal("died")
-		die()
 		return
 	else:
 		hp += value
@@ -135,6 +136,7 @@ func _ready():
 	attackIsStop = true
 	loadPlayerData()
 	set_hp(0)
+	isDied = false
 
 func yoveWhitEenmy():
 	global_position = AutoloadScript.enemyNode.global_position
@@ -185,6 +187,7 @@ func _physics_process(delta):
 			comboAction = 1
 
 		lastState = comboTimer.is_stopped()
+
 
 
 func die():
@@ -245,7 +248,9 @@ func _on_Hurtbox_body_entered(body:Node):
 
 
 func _on_Player_died():
-	pass # Replace with function body.
+	changeAnimationState("playerDie")
+	dieDelay.start()
+	isDied = true
 
 
 func _on_AnimationPlayer_animation_finished(anim_name:String):
